@@ -2,7 +2,7 @@ package com.luukachoo.cryptotracker.crypto.presentation.models
 
 import androidx.annotation.DrawableRes
 import com.luukachoo.cryptotracker.crypto.domain.Coin
-import com.luukachoo.cryptotracker.util.getDrawableIdForCoin
+import com.luukachoo.cryptotracker.core.presentation.util.getDrawableIdForCoin
 import java.text.NumberFormat
 import java.util.Locale
 

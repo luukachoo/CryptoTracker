@@ -1,4 +1,4 @@
-package com.luukachoo.cryptotracker.util
+package com.luukachoo.cryptotracker.core.presentation.util
 
 import com.luukachoo.cryptotracker.R
 

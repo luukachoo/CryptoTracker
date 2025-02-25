@@ -1,4 +1,4 @@
-package com.luukachoo.cryptotracker.util
+package com.luukachoo.cryptotracker.core.domain.util
 
 typealias DomainError = Error
 
