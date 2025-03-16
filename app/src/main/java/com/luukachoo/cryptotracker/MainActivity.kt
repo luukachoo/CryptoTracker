@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.luukachoo.cryptotracker.core.presentation.util.ObserveAsEvents
 import com.luukachoo.cryptotracker.core.presentation.util.toString
+import com.luukachoo.cryptotracker.crypto.presentation.coin_detail.CoinDetailScreen
 import com.luukachoo.cryptotracker.crypto.presentation.coin_list.CoinListEvent
 import com.luukachoo.cryptotracker.crypto.presentation.coin_list.CoinListScreen
 import com.luukachoo.cryptotracker.crypto.presentation.coin_list.CoinListViewModel
@@ -41,10 +42,22 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-                    CoinListScreen(
-                        state = state,
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    when {
+                        state.selectedCoin != null -> {
+                            CoinDetailScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                state = state
+                            )
+                        }
+
+                        else -> {
+                            CoinListScreen(
+                                modifier = Modifier.padding(innerPadding),
+                                state = state,
+                                onAction = viewModel::onAction
+                            )
+                        }
+                    }
                 }
             }
         }
