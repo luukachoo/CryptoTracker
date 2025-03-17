@@ -6,11 +6,18 @@ import com.luukachoo.cryptotracker.core.domain.util.NetworkError
 import com.luukachoo.cryptotracker.core.domain.util.Result
 import com.luukachoo.cryptotracker.core.domain.util.map
 import com.luukachoo.cryptotracker.crypto.data.mappers.toCoin
+import com.luukachoo.cryptotracker.crypto.data.mappers.toCoinPrice
+import com.luukachoo.cryptotracker.crypto.data.networking.dto.CoinHistoryDto
+import com.luukachoo.cryptotracker.crypto.data.networking.dto.CoinPriceDto
 import com.luukachoo.cryptotracker.crypto.data.networking.dto.CoinResponseDto
 import com.luukachoo.cryptotracker.crypto.domain.Coin
 import com.luukachoo.cryptotracker.crypto.domain.CoinDataSource
+import com.luukachoo.cryptotracker.crypto.domain.CoinPrice
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 class RemoteCoinDataSource(
     private val httpClient: HttpClient
@@ -22,6 +29,36 @@ class RemoteCoinDataSource(
             )
         }.map { coinResponseDto ->
             coinResponseDto.data.map { it.toCoin() }
+        }
+    }
+
+    override suspend fun getCoinHistory(
+        coinId: String,
+        start: ZonedDateTime,
+        end: ZonedDateTime
+    ): Result<List<CoinPrice>, NetworkError> {
+        val startMillis = start
+            .withZoneSameInstant(ZoneId.of("UTC"))
+            .toInstant()
+            .toEpochMilli()
+
+        val endMillis = end
+            .withZoneSameInstant(ZoneId.of("UTC"))
+            .toInstant()
+            .toEpochMilli()
+
+        return safeCall<CoinHistoryDto> {
+            httpClient.get(
+                urlString = constructUrl("/assets/$coinId/history")
+            ) {
+                parameter("interval", "h6")
+                parameter("start", startMillis)
+                parameter("end", endMillis)
+            }
+        }.map { coinHistoryDto ->
+            coinHistoryDto.data.map {
+                it.toCoinPrice()
+            }
         }
     }
 }
