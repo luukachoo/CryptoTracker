@@ -8,7 +8,6 @@ import com.luukachoo.cryptotracker.core.domain.util.map
 import com.luukachoo.cryptotracker.crypto.data.mappers.toCoin
 import com.luukachoo.cryptotracker.crypto.data.mappers.toCoinPrice
 import com.luukachoo.cryptotracker.crypto.data.networking.dto.CoinHistoryDto
-import com.luukachoo.cryptotracker.crypto.data.networking.dto.CoinPriceDto
 import com.luukachoo.cryptotracker.crypto.data.networking.dto.CoinResponseDto
 import com.luukachoo.cryptotracker.crypto.domain.Coin
 import com.luukachoo.cryptotracker.crypto.domain.CoinDataSource
